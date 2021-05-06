@@ -19,6 +19,7 @@ const server = net.createServer({allowHalfOpen: true}, (connection) => {
 
     const request = JSON.parse(data);
 
+    // Almacenamos la información en el fichero
     fs.appendFile('database/history.txt', request.text + '\n', (err) => {
       if (err) {
         connection.write(JSON.stringify({'type': 'error'}), (err) => {

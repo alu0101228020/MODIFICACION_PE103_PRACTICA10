@@ -7,11 +7,14 @@ import * as net from 'net';
 if (process.argv.length < 3) {
   console.log('Error: You must specify at least one message.');
 } else {
+  // Conexión de cliente al puerto correspondiente
   const client = net.connect({port: 60300});
 
   let message: string = '';
+  // Escogemos el mensaje por línea de comandos
   message = process.argv.splice(2).join(' ');
 
+  // Solicitud realizada del cliente
   client.write(JSON.stringify({'type': 'message', 'text': message}), (err) => {
     if (err) console.log(`Request could not be made: ${err.message}.`);
     else client.end();
@@ -22,6 +25,7 @@ if (process.argv.length < 3) {
     data += dataChunk;
   });
 
+  // Mensaje de estado de envío
   client.on('end', () => {
     const request = JSON.parse(data);
     if (request.type == 'success') console.log('The message could be added successfully.');
